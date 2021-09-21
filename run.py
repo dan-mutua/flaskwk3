@@ -7,6 +7,9 @@ from wtforms import StringField,PasswordField,SubmitField
 from wtforms.form import Form
 from wtforms.validators import InputRequired,Length,ValidationError
 from flask_bcrypt import Bcrypt
+from .. import db
+from email import mail_message
+
 
 
 app = Flask(__name__)
@@ -91,6 +94,8 @@ def signup():
      new_user = User(username=Form.username.data, password= hashed_password)
      db.session.add(new_user)
      db.session.commit()
+
+     mail_message("Welcome to 60 seconds pitch","email/welcome_user",user.email,user=user)
      return url_for(login)
   return render_template("signup.html", form=Form)
 
