@@ -95,7 +95,7 @@ def signup():
      db.session.add(new_user)
      db.session.commit()
 
-     mail_message("Welcome to 60 seconds pitch","email/welcome_user",user.email,user=user)
+     mail_message("Welcome to 60 seconds pitch","email/welcome_user",User.email,user=User)
      return url_for(login)
   return render_template("signup.html", form=Form)
 
