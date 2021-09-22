@@ -1,31 +1,3 @@
-<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type=text/javascript>
-       $(function() {
-         $('a#like').bind('click', function() {
-           $.getJSON('/like',
-               function(data) {
-             $('#likes').text(data)
-           });
-           return false;
-         });
-       });
-       $(function() {
-         $('a#dislike').bind('click', function() {
-           $.getJSON('/dislike',
-               function(data) {
-             $('#dislikes').text(data)
-           });
-           return false;
-         });
-       });
-</script> -->
-
-
-<!--button-->
-
-
-
-
 
 {% macro displayPitches(all_pitches)%}
     {% if all_pitches%}
@@ -53,12 +25,6 @@
 
                                     <a href="{{url_for('main.dislike',pitch_id=pitch.id)}}" class= "btn btn-danger btn-sm"><i class="far fa-thumbs-down"></i>Dislike <span class="dislikes">{{pitch.dislikes.count()}}</span></a>
 
-
-                                    <!-- <form>
-                                       <a href=# id=like><button class='btn btn-success'>Like</button></a><span id="likes"></span>
-
-                                       <a href=# id=tes><button class='btn btn-danger'>Dislike</button></a><span id="unlikes"></span>
-                                    </form> -->
 
                                 </div>
 

@@ -14,7 +14,7 @@ from ..email import mail_message
 app = Flask(__name__)
 db=SQLAlchemy(app)
 bcrypt= Bcrypt(app)
-app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///databse.db'
+app.config['SQLALCHEMY_DATABASE_URI'] =''
 app.config['SECRET_KEY'] = 'lion22'
 
 Login_Manager= LoginManager()
