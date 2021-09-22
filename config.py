@@ -4,7 +4,7 @@ class Config:
     '''
     general configuration
     '''
-    SQLALCHEMY_DATABASE_URI = postgresql+psycopg2://moringa:12345678@localhost/lions-den>
+    SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://moringa:1234@localhost/lionsden'
     
 
     @staticmethod
