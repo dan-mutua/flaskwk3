@@ -8,6 +8,7 @@ from wtforms.form import Form
 from wtforms.validators import InputRequired,Length,ValidationError
 from flask_bcrypt import Bcrypt
 from ..email import mail_message
+from ..models import User,loginForm,RegisterForm
 
 
 
