@@ -1,25 +1,26 @@
-# One Minute Pitch
+# LION'S DEN
 
 ### Author
-CLIFFORD KASERA
+Daniel Mutua
 
 ### Description
-Application that allows users to submit their pitches and other users will vote on them and leave comments to give their feedback on them.
+This website allows user to add their pictch or like tha already existing pitched ideas
 
 #### Behaviours
 This website will:
-1. display the pitches that have been posted.
-2. allow the user to pitch an idea.
-3. allow the user to review pitches that have been posted.
-4. allow the user to select a category
+* display the pitches that have been posted.
+* allow the user to pitch an idea.
+* allow the user to review pitches that have been posted.
+* allow the user to select a category
 
 #### Technologies
-Python
-Flask (in python)
-Postgresql (database)
+* Python
+* Mako
+* Flask 
+* Postgresql 
 
 #### Installation
-You need to have Python3 to run this website.
+You need to have Python3.8 to run this website.
 
  `$ git clone <this-repository>`
  
@@ -27,9 +28,9 @@ You need to have Python3 to run this website.
  
  `pip3 install -r requirements.txt`
 
-Run the website at https://minutesss.herokuapp.com/
+Run the website at https://flaskden.herokuapp.com/
 
 
 
 License
-MIT ©2018
+MIT ©2021
