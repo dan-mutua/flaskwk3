@@ -30,6 +30,8 @@ You need to have Python3.8 to run this website.
 
 Run the website at https://flaskden.herokuapp.com/
 
+### known bugs
+The app should be working properly without any bugs
 
 
 License
