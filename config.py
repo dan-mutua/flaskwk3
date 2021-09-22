@@ -6,7 +6,7 @@ class Config:
     '''
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:12345678@localhost/lionsden'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:mutua@localhost/lionsden'
 
     
     UPLOADED_PHOTOS_DEST ='app/static/photos'
@@ -23,7 +23,7 @@ class Config:
     SIMPLEMDE_USE_CDN = True
 
 class TestConfig(Config):
-    SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://moringa:12345678@localhost/lionsden'
+    SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://moringa:mutua@localhost/lionsden'
 
 
 class ProdConfig(Config):

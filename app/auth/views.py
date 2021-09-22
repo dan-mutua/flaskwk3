@@ -1,46 +1,60 @@
-from flask import render_template,redirect,url_for,flash,request
-from . import auth
-from flask_login import login_user,logout_user,login_required
-from ..models import User
-from .forms import LoginForm,RegistrationForm
-from .. import db
+from flask import Flask,render_template,url_for,redirect
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin,login_user,login_required,LoginManager,logout_user,current_user
+from flask_wtf import FlaskForm
+from flask_wtf.form import FlaskForm
+from wtforms import StringField,PasswordField,SubmitField
+from wtforms.form import Form
+from wtforms.validators import InputRequired,Length,ValidationError
+from flask_bcrypt import Bcrypt
 from ..email import mail_message
 
 
 
-@auth.route('/login',methods=['GET','POST'])
+app = Flask(__name__)
+db=SQLAlchemy(app)
+bcrypt= Bcrypt(app)
+app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///databse.db'
+app.config['SECRET_KEY'] = 'lion22'
+
+Login_Manager= LoginManager()
+Login_Manager.init_app(app)
+Login_Manager.login_view = "login"
+
+@app.route('/login',methods=['GET','POST'])
 def login():
-    login_form = LoginForm()
-    if login_form.validate_on_submit():
-        user = User.query.filter_by(email = login_form.email.data).first()
-        if user is not None and user.verify_password(login_form.password.data):
-            login_user(user,login_form.remember.data)
-            return redirect(request.args.get('next') or url_for('main.index'))
-
-        flash('Invalid username or Password')
-
-    title = "Login"
-    return render_template('auth/login.html',login_form = login_form,title=title)
-
+  Form=loginForm()
+  if Form.validate_on_submit():
+    user = User.query.filter_by(username=Form.username.data).first()
+    if user:
+      if bcrypt.check_password_hash(user.password,Form.password.data):
+        login_user(user)
+        return redirect(url_for('pitches'))
+  return render_template("login.html", form=Form)
     
 
-@auth.route('/register',methods = ["GET","POST"])
-def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(email = form.email.data, username = form.username.data,password = form.password.data)
-        db.session.add(user)
-        db.session.commit()
-
-        mail_message("Welcome to 60 seconds pitch","email/welcome_user",user.email,user=user)
+@app.route('/pitches',methods=['GET','POST'] )
+@login_required
+def pitches():
+  return render_template('pitches.html')
 
 
-        return redirect(url_for('auth.login'))
-        title = "New Account"
-    return render_template('auth/register.html',registration_form = form)
-
-@auth.route('/logout')
+@app.route('/logout',methods=['GET','POST'])
 @login_required
 def logout():
-    logout_user()
-    return redirect(url_for("main.index"))
+  login_user()
+  return redirect(url_for('login'))
+
+@app.route('/signup',methods=['GET','POST'])
+def signup():
+  Form= RegisterForm()
+
+  if Form.validate_on_submit():
+     hashed_password= bcrypt.generate_password_hash(Form.password.data)
+     new_user = User(username=Form.username.data, password= hashed_password)
+     db.session.add(new_user)
+     db.session.commit()
+
+     
+     return url_for(login)
+  return render_template("signup.html", form=Form)
