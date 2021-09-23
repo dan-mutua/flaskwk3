@@ -4,9 +4,9 @@ from wtforms.validators import Required
 from flask import render_template, request, redirect, url_for, abort  
 from . import main  
 from .forms import CommentsForm, UpdateProfile, PitchForm, UpvoteForm
-from ..models import Comment, Pitch, User
+from ..models import Comment, Pitch, User,Like
 from flask_login import login_required, current_user
-from .. import db,photos
+from .. import db
 
 
 class CommentsForm(FlaskForm):
@@ -19,7 +19,7 @@ class UpdateProfile(FlaskForm):
     submit = SubmitField('Submit') 
 
 class PitchForm(FlaskForm):
-    category_id = SelectField('Select Category', choices=[('1', 'Interview'), ('2', 'Pick Up Lines'), ('3', 'Promotion'),('4','Product')])
+    category_id = SelectField('Select Category', choices=[('1', 'Interview'),  ('3', 'Promotion'),('4','Product')])
     content = TextAreaField('YOUR PITCH')
     submit = SubmitField('Create Pitch')
 
@@ -39,7 +39,7 @@ def index():
     search_pitch = request.args.get('pitch_query')
     pitches= Pitch.get_all_pitches()  
 
-    return render_template('homepage.html', title = title, pitches= pitches)
+    return render_template('index.html', title = title, pitches= pitches)
 
 @main.route('/inteview/pitches/')
 def interview():
@@ -50,17 +50,28 @@ def interview():
     title = 'Home - Welcome to The best Pitching Website Online'  
     return render_template('interview.html', title = title, pitches= pitches )
 
-@main.route('/pitch/<int:pitch_id>')
-def pitch(pitch_id):
-
+@main.route('/pitch/new',methods = ['GET','POST'])
+@login_required
+def pitch():
     '''
-    View pitch page function that returns the pitch details page and its data
+    View pitch function that returns the pitch page and data
     '''
-    found_pitch= get_pitch(pitch_id)
-    title = pitch_id
-    pitch_comments = Comment.get_comments(pitch_id)
+    pitch_form = PitchForm()
+    likes = Like.query.filter_by(pitch_id=Pitch.id)
 
-    return render_template('pitch.html',title= title ,found_pitch= found_pitch, pitch_comments= pitch_comments)
+    if pitch_form.validate_on_submit():
+        body = pitch_form.body.data
+        category = pitch_form.category.data
+        title = pitch_form.title.data
+
+        new_pitch = Pitch(title=title, body=body, category = category, user = current_user)
+        new_pitch.save_pitch()
+
+        return redirect(url_for('main.index'))
+
+
+    title = 'New Pitch | lions den'
+    return render_template('pitch.html', title = title, pitch_form = pitch_form, likes = likes)
 
 @main.route('/search/<pitch_name>')
 def search(pitch_name):

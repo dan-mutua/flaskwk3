@@ -113,7 +113,7 @@ class Pitch(db.Model):
 
     @classmethod
     def get_all_pitches(cls):
-        pitches = Pitch.query.order_by('-id').all()
+        pitches = Pitch.query.order_by('id').all()
         return pitches
 
 
