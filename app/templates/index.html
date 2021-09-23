@@ -24,10 +24,9 @@
         <a href="{{url_for('auth.login')}}">login</a>
         <a href="{{url_for('auth.register')}}">dont have an account? signup</a> 
     {%endif%}
-    
+     
 </div>
- {% for pitch in pitches%}
- {{pitch.pitch.pitch}}
- {%endfor%}
+ 
+ 
 
 {% endblock%}
