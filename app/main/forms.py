@@ -1,23 +1,95 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,TextAreaField,SubmitField, SelectField, RadioField
-from wtforms.validators import Required
-
-class CommentsForm(FlaskForm):
-    comment = TextAreaField('Comment', validators=[Required()])
-    vote=RadioField('default field arguments', choices=[('1', 'UpVote'), ('1', 'DownVote')])
-    submit = SubmitField('SUBMIT')  
+from wtforms.validators import Required,Email
+from wtforms import SubmitField, TextAreaField, StringField,ValidationError,SelectField
+from ..models import User
 
 class UpdateProfile(FlaskForm):
-    bio = TextAreaField('Tell us about you.',validators = [Required()])
-    submit = SubmitField('Submit') 
+    bio = TextAreaField('Tell us about you.', validators=[Required()])
+    submit = SubmitField('Submit')
 
+
+class GeneralForm(FlaskForm):
+    post = StringField('Title', validators=[Required()])
+    body = TextAreaField('Post', validators=[Required()])
+    submit = SubmitField('Submit')
+    
+    
 class PitchForm(FlaskForm):
-    category_id = SelectField('Select Category', choices=[('1', 'Interview'), ('2', 'Pick Up Lines'), ('3', 'Promotion'),('4','Product')])
-    content = TextAreaField('YOUR PITCH')
-    submit = SubmitField('Create Pitch')
+    pitch_title = StringField('Title', validators=[Required()])
+    content = TextAreaField('Pitch', validators=[Required()])
+    category = SelectField('Category', choices=[('Advertisement','Advertisement Pitch'),('Project','Project Pitch'),('General','General Pitch'),('Sale','Sale Pitch')], validators=[Required()])
+    submit = SubmitField('Write Pitch!')
 
-class UpvoteForm(FlaskForm):
-    '''
-    Class to create a wtf form for upvoting a pitch
-    '''
-    submit = SubmitField('Upvote')
+class CommentForm(FlaskForm):
+    comment_content = TextAreaField('Write a comment', validators=[Required()])
+    submit = SubmitField('Comment')
+
+
+class GeneralReviewForm(FlaskForm):
+    review = StringField('Review: ', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class SaleForm(FlaskForm):
+    post = StringField('Title', validators=[Required()])
+    body = TextAreaField('Post', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class SaleReviewForm(FlaskForm):
+    review = StringField('Review: ', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class SeductionForm(FlaskForm):
+    post = StringField('Title', validators=[Required()])
+    body = TextAreaField('Post', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class SeductionReviewForm(FlaskForm):
+    review = StringField('Review: ', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class MusicForm(FlaskForm):
+    post = StringField('Title', validators=[Required()])
+    body = TextAreaField('Post', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class MusicReviewForm(FlaskForm):
+    review = StringField('Review: ', validators=[Required()])
+    submit = SubmitField('Submit')
+
+class ProjectForm(FlaskForm):
+    post = StringField('Title', validators=[Required()])
+    body = TextAreaField('Post', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class ProjectReviewForm(FlaskForm):
+    review = StringField('Review: ', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class InterviewForm(FlaskForm):
+    post = StringField('Title', validators=[Required()])
+    body = TextAreaField('Post', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class InterviewReviewForm(FlaskForm):
+    review = StringField('Review: ', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class AdvertisementForm(FlaskForm):
+    post = StringField('Title', validators=[Required()])
+    body = TextAreaField('Post', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class AdvertisementReviewForm(FlaskForm):
+    review = StringField('Review: ', validators=[Required()])
+    submit = SubmitField('Submit')

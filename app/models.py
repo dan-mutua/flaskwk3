@@ -1,17 +1,9 @@
+from sqlalchemy.sql.functions import current_user
 from . import db
 from . import login_manager
 from datetime import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
-from flask_login import UserMixin,current_user
-from flask import Flask,render_template,url_for,redirect
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin,login_user,login_required,LoginManager,logout_user,current_user
-from flask_wtf import FlaskForm
-from flask_wtf.form import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField
-from wtforms.form import Form
-from wtforms.validators import InputRequired,Length,ValidationError
-from flask_bcrypt import Bcrypt
+from flask_login import UserMixin
 
 
 @login_manager.user_loader
@@ -49,28 +41,7 @@ class User(UserMixin,db.Model):
         return f'User {self.username}'
 
 
-class RegisterForm(FlaskForm):
-  username=StringField(validators=[InputRequired(), Length(min=1,max=1000)], render_kw={"placeholder":"username"} )
 
-
-  password=PasswordField(validators=[InputRequired(),Length(min=1,max=50)], render_kw={"placeholder": "Password"})
-
-
-  submit=SubmitField("Register")
-
-
-  def validate_username(self, username):
-    existing_user_username = User.query.filter_by(username=username.data).first()
-    if existing_user_username:
-      raise ValidationError(message="ooooooppppsss! Username is already taken,choose a different one and be creative")
-class loginForm(FlaskForm):
-  username=StringField(validators=[InputRequired(),Length(min=1,max=1000)], render_kw={"placeholder":"username"} )
-
-
-  password=PasswordField(validators=[InputRequired(),Length(min=1,max=50)], render_kw={"placeholder": "Password"})
-
-
-  submit=SubmitField("login")
 class Role(db.Model):
     __tablename__ ='roles'
 
@@ -113,7 +84,7 @@ class Pitch(db.Model):
 
     @classmethod
     def get_all_pitches(cls):
-        pitches = Pitch.query.order_by('id').all()
+        pitches = Pitch.query.order_by('-id').all()
         return pitches
 
 
