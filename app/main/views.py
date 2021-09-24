@@ -1,7 +1,7 @@
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for
 from . import main 
 from flask_login import login_required, current_user
-from .forms import UpdateProfile, GeneralForm, GeneralReviewForm, SaleForm, SaleReviewForm, SeductionForm, SeductionReviewForm, MusicForm, MusicReviewForm, ProjectForm, ProjectReviewForm, InterviewForm, InterviewReviewForm, AdvertisementForm, AdvertisementReviewForm
+from .forms import PitchForm, UpdateProfile, GeneralForm, GeneralReviewForm, SaleForm, SaleReviewForm, SeductionForm, SeductionReviewForm, MusicForm, MusicReviewForm, ProjectForm, ProjectReviewForm, InterviewForm, InterviewReviewForm, AdvertisementForm, AdvertisementReviewForm
 from .. import db
 from sqlalchemy import func
 from ..models import Pitch, User
@@ -11,6 +11,10 @@ def index():
     """
     View root page function that returns the index page and its data
     """
+    form =PitchForm()
+    
+
+
     pitch = Pitch.query.all()
     Interview = Pitch.query.filter_by(category='Interview').all()
     Advertisement = Pitch.query.filter_by(category='Advertisement').all()
@@ -21,9 +25,12 @@ def index():
     ReviewAdvertisement=Pitch.query.filter_by(category='ReviewAdvertisement').all()
     ReviewGeneral = Pitch.query.filter_by(category=' ReviewGeneral').all()
     ReviewInterview = Pitch.query.filter_by(category='ReviewInterview').all()
-
-
-    return render_template('index.html', pitch=pitch)
+    if form.validate_on_submit():
+        mypitch = Pitch(title=form.pitch_title.data,body=form.content.data, category=form.category.data)
+        db.session.add(mypitch)
+        db.session.commit()
+        return redirect(url_for('main.index'))
+    return render_template('index.html',PitchForm=form, pitch=pitch,Seduction=Seduction,MusicForm=MusicForm)
 
 @main.route('/user/<uname>')
 @login_required

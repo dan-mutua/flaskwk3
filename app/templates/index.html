@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% import 'macros.html' as macro%}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block styles%} 
     {{ super() }}
@@ -21,10 +22,17 @@
     {% else %}
          <h3>Hello stranger</h3>
         <h3>Welcome to Lions den</h3>
-        <a href="{{url_for('auth.login')}}">login</a>
+        <a href="{{url_for('auth.login')}}">login here</a><br>
         <a href="{{url_for('auth.register')}}">dont have an account? signup</a> 
     {%endif%}
-     
+    <div>
+        <a href="{{url_for('main.index')}}" class="btn-success btn">add pitch</a>
+    </div>
+    <div>
+        
+          <p> {{ wtf.quick_form(PitchForm) }}</p>
+    </div>
+    
 </div>
  
  
