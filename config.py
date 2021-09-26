@@ -6,7 +6,7 @@ class Config:
     '''
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:mutua@localhost/lionsden'
+   
 
     
     UPLOADED_PHOTOS_DEST ='app/static/photos'
@@ -32,7 +32,7 @@ class ProdConfig(Config):
     Args:
         Config: The parent configuration class with General configuration settings
     '''
-    # #SQLALCHEMY_DATABASE_URI = os.environ.get("postgresql-tapered-59390 ")   
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")  
     pass
     
 class DevConfig(Config):
